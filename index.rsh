@@ -11,13 +11,22 @@ const Common = {
   Task5: Bytes(128),
   Task6: Bytes(128),
   Task7: Bytes(128), 
-
+  settingtasks: Fun([], Bool),
+  setTask1: Fun([], Null),
+  setTask2: Fun([], Null),
+  setTask3: Fun([], Null),
+  setTask04: Fun([], Null),
+  setTask5: Fun([], Null),
+  setTask6: Fun([], Null),
+  setTask7: Fun([], Null),
+  taskFinish: Fun([], Bool),
+  starting: Bool,
+  donetasks: Bool,
 };
 
 export const main = Reach.App(() => {
   const A = Participant('Alice', {
     ...Common,
-  //  setchallenge: Fun([], Tuple(UInt, UInt, UInt)),
   reward: UInt,
   payment: UInt, 
   deadline: UInt,
@@ -25,10 +34,9 @@ export const main = Reach.App(() => {
 
   const B = Participant('Bob', {
     ...Common,
-    accchallenge: Fun([UInt, UInt], Bool),
+    accchallenge: Fun([UInt], Null),
     termsAccepted: Bool,
     Response1: Bytes(128),
-//    ichoice: UInt,
   });
   init();
 
@@ -36,55 +44,45 @@ export const main = Reach.App(() => {
     const reward = declassify(interact.reward);  
     const deadline = declassify(interact.deadline);
     const payment = declassify(interact.payment);
-  //  const price0 = declassify(interact.price0);
-  //  const price1 = declassify(interact.price1);
-  //  const price2 = declassify(interact.price2);
- 
-  //  const [ reward, payment, deadline ]
-  //   = declassify(interact.setchallenge());
     });
 
   A.publish(reward, payment, deadline);
   commit();
-  A.pay(reward );
+  A.pay(reward);
   commit();
-  /* A.publish(reward);
-  commit();
-  A.publish(price0);
-  commit();
-  A.publish(price1);
-  commit();
-  A.publish(price2);
-  commit();
-*/
+  
   B.only(() => {
-  //const ichoice = declassify(interact.ichoice);
-
- // const bwhen = 
+ 
    const termsAccepted =
-   declassify(interact.accchallenge(reward, payment));
+   declassify(interact.accchallenge(payment));
   });
   
-  B.pay(payment)
-  commit();
+  B.pay(payment);
 
+  // To make the program pause to engage in the tasks.
+  B.only(() => {const starting = declassify(interact.settingtasks());
+  });
 
-
- // .when(bwhen)
- // .timeout(relativeTime(deadline), () => {
- //   A.publish();
- //   transfer(reward).to(A);
- //   each([A, B], () => interact.informTimeout());
- //   commit();
- //   exit();
- // });
-
-
-A.publish();
+  /*
+  //Possible hooks for rewarding individual tasks.
+  // Not cuurently in use
+  B.only(() =>{interact.setTask1();
+                interact.setTask2();
+                interact.setTask3();
+                interact.setTask04();
+                interact.setTask5();
+                interact.setTask6();
+                interact.setTask7();
+  });
+*/
+B.only(() => {const donetasks = declassify(interact.taskFinish());
+});
 transfer(payment).to(A);
 transfer(reward).to(B);
+
 each([A, B], () => interact.seeTransfer());
 commit();
 
 exit();
+
 })
