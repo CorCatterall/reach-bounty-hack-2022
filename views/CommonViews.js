@@ -5,10 +5,7 @@ const exports = {};
 // Common views must be extended.
 // It does not have its own Wrapper view.
 
-
-
 exports.seeTransfer = class extends React.Component {
- 
   render() {
     const {parent} = this.props;
     return (
@@ -21,7 +18,25 @@ exports.seeTransfer = class extends React.Component {
     );
   }
 }
-
+exports.settingTasks = class extends React.Component {
+  render() {
+    const {parent, starting} = this.props;
+   return (
+      <div>
+    Getting set up.
+    <br></br>
+    Click when you're ready to start the tasks.
+        <p> </p>
+        <button
+        onClick={() => {
+        this.setState({starting: true});
+          parent.setTask1();
+       }}           
+          >Start now</button>
+      </div>
+    );
+  }
+}
 exports.setTask1 = class extends React.Component {
   render() {
     const {parent} = this.props;
@@ -32,12 +47,13 @@ exports.setTask1 = class extends React.Component {
         <p> </p>
         <img src = {require('../images/loudmusic.png')} ></img>
         <button
-            onClick={() => parent.setTask2()}
+           onClick={() => parent.setTask2()}
           >Done it!</button>
       </div>
     );
+  }
 }
-}
+
 
 exports.setTask2 = class extends React.Component {
   render() {
@@ -56,7 +72,6 @@ exports.setTask2 = class extends React.Component {
       </div>
     );
   }
-
 }
 
 exports.setTask3 = class extends React.Component {
@@ -76,7 +91,6 @@ exports.setTask3 = class extends React.Component {
     );
   }
 }
-
 
 // Doesn't work using "Task4". Just doesn't. CHange it to "Task04"
 // and everything's fine. "Task1"---"Task7" are fine. Weird.
@@ -154,15 +168,23 @@ exports.setTask7 = class extends React.Component {
 }
 exports.taskFinish = class extends React.Component {
   render() {
-    const {parent} = this.props;
+    const {parent, donetasks} = this.props;
     return (
       <div>
         !!CONGRATULATIONS!! 
         <p> </p>
         <img src = {require('../images/finish.png')} ></img>
+        <br></br>
         <button
-            onClick={() => parent.seeTransfer()}
+          onClick={() => {
+            this.setState({donetasks: true});
+            parent.checktask();
+          }}
           >All done!</button>
+          <br></br>
+          <button
+            onClick={() => parent.seeTransfer()}
+          >Finish</button>
       </div>
     );
   }
@@ -177,7 +199,6 @@ exports.Done = class extends React.Component {
     );
   }
 }
-
 
 exports.Timeout = class extends React.Component {
   render() {
