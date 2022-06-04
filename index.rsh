@@ -3,7 +3,7 @@
 const Common = {
   ...hasRandom,
   informTimeout: Fun([], Null),
-  seeTransfer: Fun([], Null),
+  seeTransfer: Fun([UInt,UInt], Null),
   Task1: Bytes(128),
   Task2: Bytes(128),
   Task3: Bytes(128),
@@ -11,7 +11,7 @@ const Common = {
   Task5: Bytes(128),
   Task6: Bytes(128),
   Task7: Bytes(128), 
-  settingtasks: Fun([], Bool),
+  settingtasks: Fun([], Null),
   setTask1: Fun([], Null),
   setTask2: Fun([], Null),
   setTask3: Fun([], Null),
@@ -19,9 +19,10 @@ const Common = {
   setTask5: Fun([], Null),
   setTask6: Fun([], Null),
   setTask7: Fun([], Null),
-  taskFinish: Fun([], Bool),
-  starting: Bool,
-  donetasks: Bool,
+  taskFinish: Fun([], Null),
+  checkstart: Bool,
+  checkfinish: Bool,
+  checktask1: Bool,
 };
 
 export const main = Reach.App(() => {
@@ -34,7 +35,7 @@ export const main = Reach.App(() => {
 
   const B = Participant('Bob', {
     ...Common,
-    accchallenge: Fun([UInt], Null),
+    accchallenge: Fun([UInt,UInt], Null),
     termsAccepted: Bool,
     Response1: Bytes(128),
   });
@@ -54,33 +55,54 @@ export const main = Reach.App(() => {
   B.only(() => {
  
    const termsAccepted =
-   declassify(interact.accchallenge(payment));
+   declassify(interact.accchallenge(payment, reward));
   });
   
   B.pay(payment);
 
   // To make the program pause to engage in the tasks.
-  B.only(() => {const starting = declassify(interact.settingtasks());
+  B.only(() => {const checkstart = declassify(interact.settingtasks());
   });
-
-  /*
-  //Possible hooks for rewarding individual tasks.
-  // Not cuurently in use
-  B.only(() =>{interact.setTask1();
-                interact.setTask2();
-                interact.setTask3();
-                interact.setTask04();
-                interact.setTask5();
-                interact.setTask6();
-                interact.setTask7();
+  commit();
+  B.publish(checkstart);
+  B.only(() => {const checktask1 = declassify(interact.setTask1());
   });
-*/
-B.only(() => {const donetasks = declassify(interact.taskFinish());
+  // commit();
+  // B.publish(checktask1);
+  B.only(() => {const checktask2 = declassify(interact.setTask2());
+  });
+  // commit();
+  // B.publish(checktask2);
+  B.only(() => {const checktask3 = declassify(interact.setTask3());
+  });
+ // commit();
+ // B.publish(checktask3);
+  B.only(() => {const checktask04 = declassify(interact.setTask04());
+  });
+ // commit();
+ // B.publish(checktask04);
+  B.only(() => {const checktask5 = declassify(interact.setTask5());
+  });
+ // commit();
+ //  B.publish(checktask5);
+  B.only(() => {const checktask6 = declassify(interact.setTask6());
+  });
+ // commit();
+ // B.publish(checktask6);
+  B.only(() => {const checktask7 = declassify(interact.setTask7());
+  });
+// commit();
+//  B.publish(checktask7);
+  
+B.only(() => {const checkfinish = declassify(interact.taskFinish());
 });
+commit();
+B.publish(checkfinish);
+
 transfer(payment).to(A);
 transfer(reward).to(B);
 
-each([A, B], () => interact.seeTransfer());
+each([A, B], () => interact.seeTransfer(payment,reward));
 commit();
 
 exit();

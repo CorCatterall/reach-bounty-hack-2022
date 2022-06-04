@@ -17,7 +17,7 @@ reach.setWalletFallback(reach.walletFallback({}));
 class App extends React.Component {
     constructor(props) {
       super(props);
-      this.state = {view: 'ConnectAccount', donetasks: false, ...defaults};
+      this.state = {view: 'ConnectAccount', ...defaults};
     }
     async componentDidMount() {
       const acc = await reach.getDefaultAccount();
@@ -41,25 +41,78 @@ class App extends React.Component {
 
     render() { return renderView(this, AppViews); }
 }
-
 class Common extends React.Component {
-    random() { return reach.hasRandom.random(); }
-    informTimeout() { this.setState({view: 'Timeout'}); }
-    seeTransfer() {
-       this.setState({view: 'Done'}); }
-    async settingtasks(starting) { return await new Promise(resolveStart => 
-      this.setState({view: 'settingTasks', starting:false}));}
-    async setTask1() { this.setState({view:'setTask1'}); }
-    async setTask2() { this.setState({view:'setTask2'}); }
-    async setTask3() { this.setState({view:'setTask3'}); }
-    async setTask04() { this.setState({view:'setTask04'}); }
-    async setTask5() { this.setState({view:'setTask5'}); }
-    async setTask6() { this.setState({view:'setTask6'}); }
-    async setTask7() { this.setState({view:'setTask7'}); }
-    async taskFinish(donetasks) { return await new Promise(resolveTasks => 
-       this.setState({view:'taskFinish', donetasks})); 
-      };
-      
+  random() { return reach.hasRandom.random(); }
+  informTimeout() { this.setState({view: 'Timeout'}); }
+  async settingtasks() { 
+    return await new Promise(resolveStart => 
+    this.setState({view: 'settingTasks', resolveStart})
+    )
+    ;}
+  checkstart(){
+    this.state.resolveStart();
+  }
+  async setTask1() {
+    return await new Promise(resolveTask1 =>    
+    this.setState({view:'setTask1', resolveTask1})); }
+    checktask1(){
+      this.state.resolveTask1();
+    }
+
+  async setTask2() { 
+    return await new Promise(resolveTask2 =>
+    this.setState({view:'setTask2', resolveTask2})); }
+    checktask2(){
+      this.state.resolveTask2();
+    }
+    
+  async setTask3() { 
+    return await new Promise(resolveTask3 =>
+    this.setState({view:'setTask3',resolveTask3})); }
+    checktask3(){
+      this.state.resolveTask3();
+    }
+    
+  async setTask04() { 
+    return await new Promise(resolveTask04 => 
+    this.setState({view:'setTask04',resolveTask04})); }
+    checktask04(){
+      this.state.resolveTask04();
+    }
+    
+  async setTask5() { 
+    return await new Promise(resolveTask5 =>  
+    this.setState({view:'setTask5', resolveTask5})); }
+    checktask5(){
+      this.state.resolveTask5();
+    }
+    
+  async setTask6() { 
+    return await new Promise(resolveTask6 => 
+    this.setState({view:'setTask6',resolveTask6})); }
+    checktask6(){
+      this.state.resolveTask6();
+    }
+    
+  async setTask7() { 
+    return await new Promise(resolveTask7 => 
+    this.setState({view:'setTask7',resolveTask7})); }
+    checktask7(){
+      this.state.resolveTask7();
+    }
+    
+  async taskFinish() { 
+    return await new Promise(resolveFinish => 
+     this.setState({view:'taskFinish', resolveFinish})
+    ) 
+    ;}
+    checkfinish(){
+      this.state.resolveFinish();
+    }
+  seeTransfer(paymentAtomic, rewardAtomic) {
+    const reward = reach.formatCurrency(rewardAtomic, 4);
+    const payment = reach.formatCurrency(paymentAtomic, 4); 
+     this.setState({view: 'Done', payment, reward}); }    
   }
 class Deployer extends Common {
     constructor(props) {
@@ -95,18 +148,18 @@ class Deployer extends Common {
     backend.Bob(ctc, this);
     }
   
-    async accchallenge(paymentAtomic){
- //     const reward = reach.formatCurrency(rewardAtomic, 4);
+    async accchallenge(paymentAtomic, rewardAtomic){
+      const reward = reach.formatCurrency(rewardAtomic, 4);
       const payment = reach.formatCurrency(paymentAtomic, 4);  
        return await new Promise(resolveAcceptedP => {
-        this.setState({view: 'AcceptTerms', payment, resolveAcceptedP});
+        this.setState({view: 'AcceptTerms', payment, reward, resolveAcceptedP});
       });
     }
 
     
     termsAccepted() {
       this.state.resolveAcceptedP();
-      this.setState({view: 'settingTasks'});
+    //  this.setState({view: 'settingTasks'});
     }
     render() { return renderView(this, AttacherViews); }
   }
