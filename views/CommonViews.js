@@ -20,7 +20,8 @@ exports.seeTransfer = class extends React.Component {
 }
 exports.settingTasks = class extends React.Component {
   render() {
-    const {parent, starting} = this.props;
+    const {parent} = this.props;
+    const {disabled} = this.state || {};
    return (
       <div>
     Getting set up.
@@ -28,9 +29,10 @@ exports.settingTasks = class extends React.Component {
     Click when you're ready to start the tasks.
         <p> </p>
         <button
+        disabled={disabled}
         onClick={() => {
-        this.setState({starting: true});
-          parent.setTask1();
+        this.setState({disabled: true});
+        parent.checkstart();
        }}           
           >Start now</button>
       </div>
@@ -40,6 +42,7 @@ exports.settingTasks = class extends React.Component {
 exports.setTask1 = class extends React.Component {
   render() {
     const {parent} = this.props;
+    const {disabled} = this.state || {};  
     const Task1 = 'Listen to a song you love and turn the volume up loud!!.'   
     return (
       <div>
@@ -47,7 +50,9 @@ exports.setTask1 = class extends React.Component {
         <p> </p>
         <img src = {require('../images/loudmusic.png')} ></img>
         <button
-           onClick={() => parent.setTask2()}
+        disabled={disabled}
+           onClick={() => 
+            parent.checktask1()}
           >Done it!</button>
       </div>
     );
@@ -58,6 +63,7 @@ exports.setTask1 = class extends React.Component {
 exports.setTask2 = class extends React.Component {
   render() {
     const {parent} = this.props;
+    const {disabled} = this.state || {}; 
     const Task2 = 'Listen to a song that reminds you of your best friend.'
     return (
       <div>
@@ -67,7 +73,9 @@ exports.setTask2 = class extends React.Component {
         <p></p>
         <img src = {require('../images/bestfriend.png')} ></img>
         <button
-            onClick={() => parent.setTask3()}
+        disabled={disabled}
+            onClick={() => 
+              parent.checktask2()}
           >Done it!</button>
       </div>
     );
@@ -77,6 +85,7 @@ exports.setTask2 = class extends React.Component {
 exports.setTask3 = class extends React.Component {
   render() {
     const {parent} = this.props;
+    const {disabled} = this.state || {};
     const Task3 = 'Listen to a song by your favourite artist.'
     return (
       <div>
@@ -85,7 +94,9 @@ exports.setTask3 = class extends React.Component {
         <p> </p>
         <img src = {require('../images/favouriteartist.png')} ></img>
         <button
-            onClick={() => parent.setTask04()}
+        disabled={disabled}
+            onClick={() => 
+              parent.checktask3()}
           >Done it!</button>
       </div>
     );
@@ -98,6 +109,7 @@ exports.setTask3 = class extends React.Component {
 exports.setTask04 = class extends React.Component {
   render() {
     const {parent} = this.props;
+    const {disabled} = this.state || {};
     const Task04 = 'Introduce a friend or family member to a song you love.'
     return (
       <div>
@@ -106,7 +118,9 @@ exports.setTask04 = class extends React.Component {
         <p> </p>
         <img src = {require('../images/introduce.png')} ></img>
         <button
-            onClick={() => parent.setTask5()}
+        disabled={disabled}
+            onClick={() =>
+              parent.checktask04()}
           >Done it!</button>
       </div>
     );
@@ -116,6 +130,7 @@ exports.setTask04 = class extends React.Component {
 exports.setTask5 = class extends React.Component {
   render() {
     const {parent} = this.props;
+    const {disabled} = this.state || {};
     const Task5 = 'Listen to a song that always puts you in a great mood.'
     return (
       <div>
@@ -124,7 +139,9 @@ exports.setTask5 = class extends React.Component {
         <p> </p>
         <img src = {require('../images/greatmood.png')} ></img>
         <button
-            onClick={() => parent.setTask6()}
+        disabled={disabled}
+            onClick={() => 
+              parent.checktask5()}
           >Done it!</button>
       </div>
     );
@@ -134,6 +151,7 @@ exports.setTask5 = class extends React.Component {
 exports.setTask6 = class extends React.Component {
   render() {
     const {parent} = this.props;
+    const {disabled} = this.state || {};
     const Task6 = 'Listen to a song that has a positive message.'
     return (
       <div>
@@ -142,7 +160,9 @@ exports.setTask6 = class extends React.Component {
         <p> </p>
         <img src = {require('../images/positivemessage.png')} ></img>
         <button
-            onClick={() => parent.setTask7()}
+        disabled={disabled}
+            onClick={() => 
+              parent.checktask6()}
           >Done it!</button>
       </div>
     );
@@ -152,6 +172,7 @@ exports.setTask6 = class extends React.Component {
 exports.setTask7 = class extends React.Component {
   render() {
     const {parent} = this.props;
+    const {disabled} = this.state || {};
     const Task7 = 'Listen to an album or playlist that has no bad songs.'
     return (
       <div>
@@ -160,7 +181,9 @@ exports.setTask7 = class extends React.Component {
         <p> </p>
         <img src = {require('../images/nobadsongs.png')} ></img>
         <button
-            onClick={() => parent.taskFinish()}
+        disabled={disabled}
+            onClick={() =>
+              parent.checktask7()}
           >Done it!</button>
       </div>
     );
@@ -168,7 +191,8 @@ exports.setTask7 = class extends React.Component {
 }
 exports.taskFinish = class extends React.Component {
   render() {
-    const {parent, donetasks} = this.props;
+    const {parent} = this.props;
+    const {disabled} = this.state || {};
     return (
       <div>
         !!CONGRATULATIONS!! 
@@ -176,15 +200,14 @@ exports.taskFinish = class extends React.Component {
         <img src = {require('../images/finish.png')} ></img>
         <br></br>
         <button
+         disabled={disabled}
           onClick={() => {
-            this.setState({donetasks: true});
-            parent.checktask();
-          }}
+            this.setState({disabled: true});
+            parent.checkfinish();}
+          }
           >All done!</button>
           <br></br>
-          <button
-            onClick={() => parent.seeTransfer()}
-          >Finish</button>
+         
       </div>
     );
   }
@@ -192,9 +215,14 @@ exports.taskFinish = class extends React.Component {
 
 exports.Done = class extends React.Component {
   render() {
+    const {payment, reward, standardUnit} = this.props;
     return (
       <div>
-        Thank you for playing.
+       {payment} {standardUnit} was paid by the participant. <br></br>
+       All tasks were done.<br></br>
+       {reward} {standardUnit} was rewarded to the participant.
+       <br></br>
+      Well done!
       </div>
     );
   }
