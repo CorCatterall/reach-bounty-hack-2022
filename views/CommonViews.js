@@ -5,19 +5,6 @@ const exports = {};
 // Common views must be extended.
 // It does not have its own Wrapper view.
 
-exports.seeTransfer = class extends React.Component {
-  render() {
-    const {parent} = this.props;
-    return (
-      <div>
-        The reward has been given.
-        <button
-            onClick={() => parent.seeTransfer()}
-          >Do it.</button>
-      </div>
-    );
-  }
-}
 exports.settingTasks = class extends React.Component {
   render() {
     const {parent} = this.props;
@@ -49,6 +36,9 @@ exports.setTask1 = class extends React.Component {
         1st task.<br></br> {Task1}
         <p> </p>
         <img src = {require('../images/loudmusic.png')} ></img>
+        <br></br>
+        Click below to continue.
+        <br></br>
         <button
         disabled={disabled}
            onClick={() => 
@@ -72,6 +62,9 @@ exports.setTask2 = class extends React.Component {
         {Task2}
         <p></p>
         <img src = {require('../images/bestfriend.png')} ></img>
+        <br></br>
+        Click below to continue.
+        <br></br>
         <button
         disabled={disabled}
             onClick={() => 
@@ -93,6 +86,9 @@ exports.setTask3 = class extends React.Component {
         <br /> {Task3}
         <p> </p>
         <img src = {require('../images/favouriteartist.png')} ></img>
+        <br></br>
+        Click below to continue.
+        <br></br>
         <button
         disabled={disabled}
             onClick={() => 
@@ -117,6 +113,9 @@ exports.setTask04 = class extends React.Component {
         <br /> {Task04}
         <p> </p>
         <img src = {require('../images/introduce.png')} ></img>
+        <br></br>
+        Click below to continue.
+        <br></br>
         <button
         disabled={disabled}
             onClick={() =>
@@ -138,6 +137,9 @@ exports.setTask5 = class extends React.Component {
         <br /> {Task5}
         <p> </p>
         <img src = {require('../images/greatmood.png')} ></img>
+        <br></br>
+        Click below to continue.
+        <br></br>
         <button
         disabled={disabled}
             onClick={() => 
@@ -159,6 +161,9 @@ exports.setTask6 = class extends React.Component {
         <br /> {Task6}
         <p> </p>
         <img src = {require('../images/positivemessage.png')} ></img>
+        <br></br>
+        Click below to continue.
+        <br></br>
         <button
         disabled={disabled}
             onClick={() => 
@@ -180,6 +185,9 @@ exports.setTask7 = class extends React.Component {
         <br /> {Task7}
         <p> </p>
         <img src = {require('../images/nobadsongs.png')} ></img>
+        <br></br>
+        Click below to continue.
+        <br></br>
         <button
         disabled={disabled}
             onClick={() =>
@@ -199,6 +207,8 @@ exports.taskFinish = class extends React.Component {
         <p> </p>
         <img src = {require('../images/finish.png')} ></img>
         <br></br>
+        Click below to finish.
+        <br></br>
         <button
          disabled={disabled}
           onClick={() => {
@@ -213,7 +223,7 @@ exports.taskFinish = class extends React.Component {
   }
 }
 
-exports.Done = class extends React.Component {
+exports.seeTransfer = class extends React.Component {
   render() {
     const {payment, reward, standardUnit} = this.props;
     return (
