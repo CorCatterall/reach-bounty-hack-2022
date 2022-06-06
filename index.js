@@ -6,13 +6,13 @@ import {renderDOM, renderView} from './views/render.js';
 import './index.css';
 import * as backend from './build/index.main.mjs';
 import { loadStdlib } from '@reach-sh/stdlib';
-//import { ALGO_MyAlgoConnect as MyAlgoConnect } from '@reach-sh/stdlib';
+// import { ALGO_MyAlgoConnect as MyAlgoConnect } from '@reach-sh/stdlib';
 const reach = loadStdlib(process.env);
 const {standardUnit} = reach;
 const defaults = {defaultFundAmt: '10', defaultprice: '1', defaultreward: '2', standardUnit};
-reach.setWalletFallback(reach.walletFallback({}));
 // reach.setWalletFallback(reach.walletFallback({
 // providerEnv: 'TestNet', MyAlgoConnect }));
+reach.setWalletFallback(reach.walletFallback({}));
 
 class App extends React.Component {
     constructor(props) {
@@ -112,7 +112,7 @@ class Common extends React.Component {
   seeTransfer(paymentAtomic, rewardAtomic) {
     const reward = reach.formatCurrency(rewardAtomic, 4);
     const payment = reach.formatCurrency(paymentAtomic, 4); 
-     this.setState({view: 'Done', payment, reward}); }    
+     this.setState({view: 'seeTransfer', payment, reward}); }    
   }
 class Deployer extends Common {
     constructor(props) {
